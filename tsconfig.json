@@ -19,10 +19,10 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@app/common": [
-        "@app/common/src"
+        "libs/common/src"
       ],
       "@app/common/*": [
-        "@app/common/src/*"
+        "libs/common/src/*"
       ]
     }
   }
