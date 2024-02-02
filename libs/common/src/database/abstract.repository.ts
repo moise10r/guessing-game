@@ -6,7 +6,9 @@ export abstract class AbstractRepository<Tdocument extends AbstractDocument> {
   protected readonly logger: Logger;
   constructor(protected readonly modal: Model<Tdocument>) {}
 
-  async create(document: Omit<Tdocument, '_id'>): Promise<Tdocument> {
+  async create(
+    document: Omit<Tdocument, '_id' | 'createdAt'>,
+  ): Promise<Tdocument> {
     const createdDocument = new this.modal({
       ...document,
       _id: new Types.ObjectId(),

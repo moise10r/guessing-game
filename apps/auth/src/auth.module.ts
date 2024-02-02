@@ -15,6 +15,7 @@ import { LoggerModule } from '@app/common';
       validationSchema: Joi.object({
         MONGO_URI: Joi.string().required(),
         PORT: Joi.number().required(),
+        // we can add here other Env for authentication
       }),
     }),
   ],

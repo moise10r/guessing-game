@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+      target: build
+    command: pnpm run start:dev api
+    env_file:
+      - ./apps/api/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app
+    container_name: api-service
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: build
+    command: pnpm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./:/usr/src/app
+    container_name: auth-service
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    container_name: mongodb
