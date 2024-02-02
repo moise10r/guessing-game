@@ -22,4 +22,4 @@ RUN npm install -g pnpm --production && \
 
 COPY --from=build /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/api/main.js"]
+CMD ["node", "dist/apps/users/main.js"]

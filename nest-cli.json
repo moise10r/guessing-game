@@ -28,13 +28,22 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
-    "auth": {
+    "users": {
       "type": "application",
-      "root": "apps/auth",
+      "root": "apps/users",
       "entryFile": "main",
-      "sourceRoot": "apps/auth/src",
+      "sourceRoot": "apps/users/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/auth/tsconfig.app.json"
+        "tsConfigPath": "apps/users/tsconfig.app.json"
+      }
+    },
+    "guess-manager": {
+      "type": "application",
+      "root": "apps/guess-manager",
+      "entryFile": "main",
+      "sourceRoot": "apps/guess-manager/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/guess-manager/tsconfig.app.json"
       }
     }
   }

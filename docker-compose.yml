@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  api:
+  api-gateway:
     build:
       context: .
       dockerfile: ./apps/api/Dockerfile
@@ -14,19 +14,33 @@ services:
       - ./:/usr/src/app
     container_name: api-service
 
-  auth:
+  users:
     build:
       context: .
-      dockerfile: ./apps/auth/Dockerfile
+      dockerfile: ./apps/users/Dockerfile
       target: build
-    command: pnpm run start:dev auth
+    command: pnpm run start:dev users
     env_file:
-      - ./apps/auth/.env
+      - ./apps/users/.env
     ports:
       - "3001:3001"
     volumes:
       - ./:/usr/src/app
-    container_name: auth-service
+    container_name: users-service
+    
+  guess-manager:
+    build:
+      context: .
+      dockerfile: ./apps/guess-manager/Dockerfile
+      target: build
+    command: pnpm run start:dev guess-manager
+    env_file:
+      - ./apps/guess-manager/.env
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./:/usr/src/app
+    container_name: guess-manager-service  
 
   mongodb:
     image: mongo:latest
