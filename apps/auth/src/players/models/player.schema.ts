@@ -6,11 +6,13 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 })
 export class PlayerDocument extends AbstractDocument {
   @Prop({
-    type: String,
     required: true,
     unique: true,
   })
   name: string;
+
+  @Prop()
+  score: number;
 }
 
 export const PlayerSchema = SchemaFactory.createForClass(PlayerDocument);
