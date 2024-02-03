@@ -1,10 +1,21 @@
-import { FilterQuery, Model, Types } from 'mongoose';
+import { FilterQuery, Model, Types, ClientSession } from 'mongoose';
 import { AbstractDocument } from './abstract.schema';
 import { Logger, NotFoundException } from '@nestjs/common';
 
 export abstract class AbstractRepository<Tdocument extends AbstractDocument> {
   protected readonly logger: Logger;
   constructor(protected readonly modal: Model<Tdocument>) {}
+
+  async startTransaction(): Promise<ClientSession> {
+    const session: ClientSession = await this.modal.startSession();
+    await session.startTransaction();
+    return session;
+  }
+
+  async endSession(session: ClientSession): Promise<boolean> {
+    await session.endSession();
+    return true;
+  }
 
   async create(
     document: Omit<Tdocument, '_id' | 'createdAt'>,

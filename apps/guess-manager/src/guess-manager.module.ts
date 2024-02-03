@@ -4,7 +4,7 @@ import { GuessManagerService } from './guess-manager.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { RmqModule } from '@app/common';
-import { USERS_SERVICE } from './constants';
+import { USERS_SERVICE } from '@app/common/constants';
 
 @Module({
   imports: [

@@ -12,6 +12,11 @@ export class GameSessionDocument extends AbstractDocument {
     default: [],
   })
   players: PlayerDto[];
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  FreezePoint: number;
 }
 
 export const GameSessionSchema =

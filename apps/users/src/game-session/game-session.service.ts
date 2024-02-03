@@ -11,6 +11,8 @@ export class GameSessionService {
 
   async createSession(): Promise<string> {
     const players = this.joinedPlayersService.getJoinedPlayers();
+    console.log('players', players);
+
     await this.gameSessionRepository.create({
       players: Object.values(players),
     });
