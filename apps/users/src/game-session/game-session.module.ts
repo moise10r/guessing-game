@@ -7,6 +7,7 @@ import {
   GameSessionSchema,
 } from './models/game-session.shema';
 import { JoinedPlayersService } from '../joined-player/joined-player.service';
+import { GameSessionController } from './game-session.controller';
 
 @Module({
   imports: [
@@ -17,5 +18,6 @@ import { JoinedPlayersService } from '../joined-player/joined-player.service';
   ],
   providers: [GameSessionService, GameSessionRepository, JoinedPlayersService],
   exports: [GameSessionService],
+  controllers: [GameSessionController],
 })
 export class GameSessionModule {}

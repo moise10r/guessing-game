@@ -14,6 +14,6 @@ export class GameSessionService {
     await this.gameSessionRepository.create({
       players: Object.values(players),
     });
-    return '';
+    return 'Game session created';
   }
 }
