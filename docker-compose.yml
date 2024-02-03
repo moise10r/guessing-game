@@ -27,7 +27,7 @@ services:
     volumes:
       - ./:/usr/src/app
     container_name: users-service
-    
+
   guess-manager:
     build:
       context: .
@@ -47,3 +47,9 @@ services:
     ports:
       - "27017:27017"
     container_name: mongodb
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - "5672:5672"  
+    container_name: rabbitmq
