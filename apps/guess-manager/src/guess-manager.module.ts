@@ -3,6 +3,8 @@ import { GuessManagerController } from './guess-manager.controller';
 import { GuessManagerService } from './guess-manager.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { RmqModule } from '@app/common';
+import { USERS_SERVICE } from './constants';
 
 @Module({
   imports: [
@@ -12,6 +14,9 @@ import * as Joi from 'joi';
         MONGO_URI: Joi.string().required(),
         PORT: Joi.number().required(),
       }),
+    }),
+    RmqModule.register({
+      name: USERS_SERVICE,
     }),
   ],
   controllers: [GuessManagerController],

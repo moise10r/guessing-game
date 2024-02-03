@@ -6,6 +6,7 @@ import { PlayersController } from './players.controller';
 import * as Joi from 'joi';
 import { PlayerRepository } from './repositories/player.repository';
 import { PlayerDocument, PlayerSchema } from './models/player.schema';
+import { JoinedPlayersService } from '../joined-player/joined-player.service';
 
 @Module({
   imports: [
@@ -22,8 +23,8 @@ import { PlayerDocument, PlayerSchema } from './models/player.schema';
     }),
     LoggerModule,
   ],
-  providers: [PlayersService, PlayerRepository],
+  providers: [PlayersService, PlayerRepository, JoinedPlayersService],
   controllers: [PlayersController],
-  exports: [PlayersService],
+  exports: [PlayersService, PlayerRepository],
 })
 export class PlayersModule {}
