@@ -1,4 +1,7 @@
-export interface PlayerDto {
+import { IsNotEmpty, IsString } from 'class-validator';
+
+export class PlayerDto {
+  @IsString()
+  @IsNotEmpty()
   name: string;
-  score: number;
 }

@@ -9,8 +9,8 @@ export class GameSessionRepository extends AbstractRepository<GameSessionDocumen
   protected readonly logger = new Logger(GameSessionRepository.name);
   constructor(
     @InjectModel(GameSessionDocument.name)
-    GameSessionDocument: Model<GameSessionDocument>,
+    gameSessionDocument: Model<GameSessionDocument>,
   ) {
-    super(GameSessionDocument);
+    super(gameSessionDocument);
   }
 }

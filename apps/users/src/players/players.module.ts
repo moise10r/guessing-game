@@ -7,6 +7,7 @@ import * as Joi from 'joi';
 import { PlayerRepository } from './repositories/player.repository';
 import { PlayerDocument, PlayerSchema } from './models/player.schema';
 import { JoinedPlayersService } from '../joined-player/joined-player.service';
+import { GameSessionModule } from '../game-session/game-session.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { JoinedPlayersService } from '../joined-player/joined-player.service';
     }),
     LoggerModule,
     RmqModule,
+    GameSessionModule,
   ],
   providers: [PlayersService, PlayerRepository, JoinedPlayersService],
   controllers: [PlayersController],

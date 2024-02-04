@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from '@app/common/database/abstract.schema';
-import { PlayerDto } from '@app/common/dto/player.dto';
 import { PlayerSchema } from '../../players/models/player.schema';
+import { IPlayer } from 'libs/common/interfaces/player.interface';
 
 @Schema({
   versionKey: false,
@@ -11,7 +11,7 @@ export class GameSessionDocument extends AbstractDocument {
     type: [{ type: PlayerSchema }],
     default: [],
   })
-  players: PlayerDto[];
+  players: IPlayer[];
   @Prop({
     type: Number,
     default: 0,

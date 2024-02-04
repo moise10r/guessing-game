@@ -1,15 +1,15 @@
-import { PlayerDto } from '@app/common/dto/player.dto';
 import { Injectable } from '@nestjs/common';
+import { IPlayer } from 'libs/common/interfaces/player.interface';
 
 @Injectable()
 export class JoinedPlayersService {
-  private joinedPlayersMap: Map<string, PlayerDto> = new Map();
+  private joinedPlayersMap: Map<string, IPlayer> = new Map();
 
-  addJoinedPlayer(player: PlayerDto): void {
+  addJoinedPlayer(player: IPlayer): void {
     this.joinedPlayersMap.set(player.name, player);
   }
 
-  getJoinedPlayers(): PlayerDto[] {
+  getJoinedPlayers(): IPlayer[] {
     return Array.from(this.joinedPlayersMap.values());
   }
 }
