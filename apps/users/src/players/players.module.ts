@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PlayersService } from './players.service';
-import { DatabaseModule, LoggerModule } from '@app/common';
+import { DatabaseModule, LoggerModule, RmqModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { PlayersController } from './players.controller';
 import * as Joi from 'joi';
@@ -22,6 +22,7 @@ import { JoinedPlayersService } from '../joined-player/joined-player.service';
       }),
     }),
     LoggerModule,
+    RmqModule,
   ],
   providers: [PlayersService, PlayerRepository, JoinedPlayersService],
   controllers: [PlayersController],

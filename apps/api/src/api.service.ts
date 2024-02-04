@@ -1,8 +1,9 @@
 import { USERS_SERVICE } from '@app/common/constants';
+import { CREATE_PLAYER } from '@app/common/constants/messages';
 import { PlayerDto } from '@app/common/dto/player.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Injectable()
 export class ApiService {
@@ -11,6 +12,6 @@ export class ApiService {
   ) {}
 
   async createPlayer(player: PlayerDto) {
-    await lastValueFrom(this.usersClient.emit('create_player', player));
+    return this.usersClient.send(CREATE_PLAYER, player).pipe(tap((res) => res));
   }
 }

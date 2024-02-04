@@ -1,39 +1,33 @@
 import { Controller } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { PlayerDto } from '@app/common/dto/player.dto';
-import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
+import {
+  Ctx,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
+import { CREATE_PLAYER } from '@app/common/constants/messages';
+import { RmqService } from '@app/common';
 
 @Controller('players')
 export class PlayersController {
-  constructor(protected readonly playersService: PlayersService) {}
-
-  // @MessagePattern('create_players')
-  // async create(
-  //   @Payload() playerPayload: PlayerDto,
-  //   @Ctx() context: RmqContext,
-  // ) {
-  //   console.log('playerPayload', playerPayload);
-
-  //   try {
-  //     const channel = context.getChannelRef();
-  //     const originalMsg = context.getMessage();
-  //     if (createdPlayer) {
-  //       channel.ack(originalMsg);
-  //       return createdPlayer;
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
-  @EventPattern('create_player')
+  constructor(
+    protected readonly playersService: PlayersService,
+    private readonly rmqService: RmqService,
+  ) {}
+  @MessagePattern(CREATE_PLAYER)
   async createdPlayer(
     @Payload() playerPayload: PlayerDto,
     @Ctx() context: RmqContext,
   ) {
-    console.log('create_player', playerPayload);
-    const createdPlayer = await this.playersService.create(playerPayload);
-    console.log('createdPlayer', createdPlayer);
+    const createdPlayer = await this.playersService.create({
+      ...playerPayload,
+    });
+    if (createdPlayer) {
+      this.rmqService.acknowledgeMessage(context);
+    }
+    return createdPlayer;
   }
 
   async create() {}

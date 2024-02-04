@@ -6,7 +6,7 @@ export class JoinedPlayersService {
   private joinedPlayersMap: Map<string, PlayerDto> = new Map();
 
   addJoinedPlayer(player: PlayerDto): void {
-    this.joinedPlayersMap.set(player._id, player);
+    this.joinedPlayersMap.set(player.name, player);
   }
 
   getJoinedPlayers(): PlayerDto[] {
