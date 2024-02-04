@@ -1,5 +1,18 @@
 version: '3.8'
 services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    container_name: mongodb
+
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    container_name: rabbitmq
+
   api-gateway:
     build:
       context: .
@@ -9,47 +22,39 @@ services:
     env_file:
       - ./apps/api/.env
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - ./:/usr/src/app
     container_name: api-service
+    depends_on:
+      - rabbitmq
 
   users:
     build:
       context: .
       dockerfile: ./apps/users/Dockerfile
-      target: build
+      # target: build
     command: pnpm run start:dev users
     env_file:
       - ./apps/users/.env
-    ports:
-      - "3001:3001"
     volumes:
       - ./:/usr/src/app
     container_name: users-service
+    depends_on:
+      - rabbitmq
+      - mongodb
 
   guess-manager:
     build:
       context: .
       dockerfile: ./apps/guess-manager/Dockerfile
-      target: build
+      # target: build
     command: pnpm run start:dev guess-manager
     env_file:
       - ./apps/guess-manager/.env
-    ports:
-      - "3002:3002"
     volumes:
       - ./:/usr/src/app
-    container_name: guess-manager-service  
-
-  mongodb:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    container_name: mongodb
-
-  rabbitmq:
-    image: rabbitmq
-    ports:
-      - "5672:5672"  
-    container_name: rabbitmq
+    container_name: guess-manager-service
+    depends_on:
+      - rabbitmq
+      - mongodb

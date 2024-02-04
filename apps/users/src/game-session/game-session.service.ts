@@ -9,12 +9,13 @@ export class GameSessionService {
     private readonly joinedPlayersService: JoinedPlayersService,
   ) {}
 
-  async createSession(): Promise<string> {
+  async createSession(freezePoint: number): Promise<string> {
     const players = this.joinedPlayersService.getJoinedPlayers();
     console.log('players', players);
 
     await this.gameSessionRepository.create({
       players: Object.values(players),
+      freezePoint,
     });
     return 'Game session created';
   }

@@ -1,1 +1,2 @@
 export const USERS_SERVICE = 'USERS';
+export const GUESS_MANAGER_SERVICE = 'GUESS_MANAGER';

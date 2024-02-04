@@ -11,7 +11,9 @@ describe('GuessManagerController', () => {
       providers: [GuessManagerService],
     }).compile();
 
-    guessManagerController = app.get<GuessManagerController>(GuessManagerController);
+    guessManagerController = app.get<GuessManagerController>(
+      GuessManagerController,
+    );
   });
 
   describe('root', () => {

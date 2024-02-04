@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiService } from './api.service';
 import { PlayerDto } from '@app/common/dto/player.dto';
 
@@ -9,5 +9,10 @@ export class ApiController {
   @Post()
   async createPlayer(@Body() player: PlayerDto) {
     return this.apiService.createPlayer(player);
+  }
+
+  @Get()
+  async getPlayer() {
+    return 'Players';
   }
 }

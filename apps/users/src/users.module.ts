@@ -6,6 +6,7 @@ import { RmqModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import { GameSessionModule } from './game-session/game-session.module';
 import * as Joi from 'joi';
+import { GUESS_MANAGER_SERVICE } from '@app/common/constants';
 
 @Module({
   imports: [
@@ -19,8 +20,11 @@ import * as Joi from 'joi';
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_USERS_QUEUE: Joi.string().required(),
       }),
+      envFilePath: './apps/users/.env',
     }),
-    RmqModule,
+    RmqModule.register({
+      name: GUESS_MANAGER_SERVICE,
+    }),
   ],
   controllers: [UsersController],
   providers: [UsersService],

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from '@app/common/database/abstract.schema';
-import { PlayerSchema } from '../../players/models/player.schema';
 import { PlayerDto } from '@app/common/dto/player.dto';
+import { PlayerSchema } from '../../players/models/player.schema';
 
 @Schema({
   versionKey: false,
@@ -16,7 +16,7 @@ export class GameSessionDocument extends AbstractDocument {
     type: Number,
     default: 0,
   })
-  FreezePoint: number;
+  freezePoint: number;
 }
 
 export const GameSessionSchema =

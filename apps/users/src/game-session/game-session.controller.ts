@@ -6,7 +6,7 @@ export class GameSessionController {
   constructor(private readonly gameSessionService: GameSessionService) {}
 
   @Post()
-  async createSession(): Promise<string> {
-    return this.gameSessionService.createSession();
+  async createSession(freezePoint: number): Promise<string> {
+    return this.gameSessionService.createSession(freezePoint);
   }
 }

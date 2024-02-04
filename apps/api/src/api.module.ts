@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ApiController } from './api.controller';
 import { ApiService } from './api.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { DatabaseModule, LoggerModule } from '@app/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { DatabaseModule, LoggerModule, RmqModule } from '@app/common';
 import { USERS_SERVICE } from '@app/common/constants';
 
 @Module({
@@ -16,21 +15,13 @@ import { USERS_SERVICE } from '@app/common/constants';
       validationSchema: Joi.object({
         MONGO_URI: Joi.string().required(),
         PORT: Joi.number().required(),
+        RABBIT_MQ_URI: Joi.string().required(),
       }),
+      envFilePath: './apps/api/.env',
     }),
-    ClientsModule.registerAsync([
-      {
-        name: USERS_SERVICE,
-        useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
-          options: {
-            host: configService.get('USERS_HOST'),
-            port: configService.get('USERS_PORT'),
-          },
-        }),
-        inject: [ConfigService],
-      },
-    ]),
+    RmqModule.register({
+      name: USERS_SERVICE,
+    }),
   ],
   controllers: [ApiController],
   providers: [ApiService],
