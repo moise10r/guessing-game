@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PlayerRepository } from './repositories/player.repository';
 import { DEFAULT_SCORE } from './constant';
 import { PlayerDto } from '@app/common/dto/player.dto';
@@ -10,14 +10,23 @@ export class PlayersService {
     private readonly playerRepository: PlayerRepository,
     private readonly joinedPlayersService: JoinedPlayersService,
   ) {}
-  async create(player: PlayerDto) {
+  async create(playerPayload: PlayerDto) {
     try {
+      const player = await this.playerRepository.findOne({
+        name: playerPayload.name,
+      });
+      if (player) {
+        return new BadRequestException('Player exist already', {
+          cause: new Error(),
+          description: 'Player exist already',
+        });
+      }
       const newPlayer = await this.playerRepository.create({
-        ...player,
+        ...playerPayload,
         score: DEFAULT_SCORE,
       });
       if (newPlayer) {
-        this.joinedPlayersService.addJoinedPlayer(player);
+        this.joinedPlayersService.addJoinedPlayer(newPlayer);
         return newPlayer;
       }
     } catch (error) {
