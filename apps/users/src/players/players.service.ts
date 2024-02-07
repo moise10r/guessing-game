@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PlayerRepository } from './repositories/player.repository';
 import { DEFAULT_SCORE } from './constant';
-import { JoinedPlayersService } from '../joined-player/joined-player.service';
-import { IPlayer } from 'libs/common/interfaces/player.interface';
+import { JoinedPlayersService } from '../../../../libs/common/src/joined-player/joined-player.service';
+import { IPlayer } from '@app/common/interfaces/player.interface';
+import { PlayerDto } from '@app/common/dto/player.dto';
 
 @Injectable()
 export class PlayersService {
@@ -10,7 +11,7 @@ export class PlayersService {
     private readonly playerRepository: PlayerRepository,
     private readonly joinedPlayersService: JoinedPlayersService,
   ) {}
-  async create(playerPayload: IPlayer) {
+  async create(playerPayload: PlayerDto) {
     try {
       // this needs to be changed
       console.log('playerPayload', playerPayload);

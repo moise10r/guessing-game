@@ -7,19 +7,19 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
-import { CREATE_PLAYER, START_GAME } from '@app/common/constants/messages';
+import { PERSIST_PLAYER, START_GAME } from '@app/common/constants/messages';
 import { RmqService } from '@app/common';
-import { GameSessionService } from '../game-session/game-session.service';
-import { CreateGameSessionDto } from '@app/common/dto/create-game-session.dto';
+import { GameRoundService } from '../game-round/game-round.service';
+import { IGameRound } from '../game-round/interfaces/game-round.interface';
 
 @Controller('players')
 export class PlayersController {
   constructor(
     protected readonly playersService: PlayersService,
-    protected readonly gameSessionService: GameSessionService,
+    protected readonly gameRoundService: GameRoundService,
     private readonly rmqService: RmqService,
   ) {}
-  @MessagePattern(CREATE_PLAYER)
+  @MessagePattern(PERSIST_PLAYER)
   async createdPlayer(
     @Payload() playerPayload: PlayerDto,
     @Ctx() context: RmqContext,
@@ -35,16 +35,16 @@ export class PlayersController {
 
   @MessagePattern(START_GAME)
   async startGame(
-    @Payload() gameSessionPayload: CreateGameSessionDto,
+    @Payload() gameRoundPayload: IGameRound,
     @Ctx() context: RmqContext,
   ) {
-    console.log('gameSessionPayload', gameSessionPayload);
+    console.log('gameRoundPayload', gameRoundPayload);
 
-    const createdGameSession =
-      await this.gameSessionService.createGameSession(gameSessionPayload);
-    // if (createdGameSession) {
+    const createdGameRound =
+      await this.gameRoundService.createGameRound(gameRoundPayload);
+    // if (createdGameRound) {
     this.rmqService.acknowledgeMessage(context);
     // }
-    return createdGameSession;
+    return createdGameRound;
   }
 }

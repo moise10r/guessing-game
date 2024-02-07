@@ -4,14 +4,14 @@ import { UsersService } from './users.service';
 import { PlayersModule } from './players/players.module';
 import { RmqModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
-import { GameSessionModule } from './game-session/game-session.module';
+import { GameRoundModule } from './game-round/game-round.module';
 import * as Joi from 'joi';
 import { GUESS_MANAGER_SERVICE } from '@app/common/constants';
 
 @Module({
   imports: [
     PlayersModule,
-    GameSessionModule,
+    GameRoundModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({

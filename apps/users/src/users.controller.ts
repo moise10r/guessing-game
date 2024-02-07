@@ -6,9 +6,9 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @EventPattern('create_player')
+  // @EventPattern('persist_player')
   // async createdPlayer(@Payload() player: any, @Ctx() context: RmqContext) {
-  //   console.log('create_player', player);
+  //   console.log('persist_player', player);
   //   this.usersService.getHello(player);
   // }
 

@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from '@app/common/database/abstract.schema';
 import { PlayerSchema } from '../../players/models/player.schema';
-import { IPlayer } from 'libs/common/interfaces/player.interface';
+import { IPlayer } from '@app/common/interfaces/player.interface';
 
 @Schema({
   versionKey: false,
 })
-export class GameSessionDocument extends AbstractDocument {
+export class GameRoundDocument extends AbstractDocument {
   @Prop({
     type: [{ type: PlayerSchema }],
     default: [],
@@ -18,6 +18,5 @@ export class GameSessionDocument extends AbstractDocument {
   })
   freezePoint: number;
 }
-
-export const GameSessionSchema =
-  SchemaFactory.createForClass(GameSessionDocument);
+PlayerSchema.index({ name: 1 }, { unique: false });
+export const GameRoundSchema = SchemaFactory.createForClass(GameRoundDocument);

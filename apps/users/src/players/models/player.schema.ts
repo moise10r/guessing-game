@@ -5,10 +5,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
   versionKey: false,
 })
 export class PlayerDocument extends AbstractDocument {
-  @Prop({
-    required: true,
-    unique: true,
-  })
+  @Prop()
   name: string;
 
   @Prop()
