@@ -15,8 +15,8 @@ describe('ApiController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(apiController.getHello()).toBe('Hello World!');
+    it('should return "Api gateway started!"', () => {
+      expect(apiController.appStarted()).toBe('Api gateway started');
     });
   });
 });
