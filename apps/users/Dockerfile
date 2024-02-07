@@ -1,0 +1,25 @@
+FROM node:16-alpine AS build
+
+WORKDIR /usr/src/app
+
+COPY package.json pnpm-lock.yaml ./
+
+RUN npm install -g pnpm && \
+    pnpm install
+
+COPY . .
+
+RUN pnpm run build
+
+FROM node:16-alpine AS production
+
+WORKDIR /usr/src/app
+
+COPY package.json pnpm-lock.yaml ./
+
+RUN npm install -g pnpm --production && \
+    pnpm install --prod
+
+COPY --from=build /usr/src/app/dist ./dist
+
+CMD ["node", "dist/apps/users/main.js"]
