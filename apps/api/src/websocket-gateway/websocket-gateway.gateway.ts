@@ -12,6 +12,7 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { Message } from './interfaces/message.interface';
 import { RankPlayer } from '@app/common/interfaces/rank-player.interface';
+import { generateRandomNumber } from 'utils/generateRandonNumber';
 
 export const joinedPlayersMap: Map<string, IPlayer> = new Map();
 export const rankPlayersMap: Map<string, RankPlayer> = new Map();
@@ -23,6 +24,7 @@ export const rankPlayersMap: Map<string, RankPlayer> = new Map();
 })
 export class WebsocketGatewayGateway {
   private readonly logger = new Logger(WebsocketGatewayGateway.name);
+  private bootPlayers = this.generateBootPlayers(4);
   constructor(
     private readonly websocketGatewayService: WebsocketGatewayService,
   ) {}
@@ -44,8 +46,9 @@ export class WebsocketGatewayGateway {
     joinedPlayersMap.set(payload.name, payload);
     const players = Array.from(joinedPlayersMap.values());
     console.log('players', players);
-
-    this.server.emit(WebSocketEvents.PLAYER_ADDED, players);
+    // ADD THE BOOT PLAYERS TO THE JOINED CLIENT
+    const allPlayers = [...players, ...this.bootPlayers];
+    this.server.emit(WebSocketEvents.PLAYER_ADDED, allPlayers);
   }
 
   @SubscribeMessage(WebSocketEvents.STARTS_ROUND)
@@ -68,12 +71,15 @@ export class WebsocketGatewayGateway {
   ) {
     joinedPlayersMap.set(payload.name, payload);
     const players = Array.from(joinedPlayersMap.values());
+    this.autoPlaysBoot();
     console.log('players who started the round', players);
-    this.server.emit(WebSocketEvents.PLAYER_ADDED, players);
+    const allPlayers = [...players, ...this.bootPlayers];
+    this.server.emit(WebSocketEvents.PLAYER_ADDED, allPlayers);
   }
 
   @SubscribeMessage(WebSocketEvents.ROUND_ENDED)
   roundEnded() {
+    this.autoPlaysBoot();
     this.server.emit(WebSocketEvents.ROUND_ENDED);
   }
 
@@ -82,7 +88,8 @@ export class WebsocketGatewayGateway {
     rankPlayersMap.set(payload.name, payload);
     const players = Array.from(rankPlayersMap.values());
     console.log('SEND_SCORE players', players);
-    this.server.emit(WebSocketEvents.SEND_SCORE, players);
+    const allPlayers = [...players, ...this.bootPlayers];
+    this.server.emit(WebSocketEvents.SEND_SCORE, allPlayers);
   }
 
   @SubscribeMessage(WebSocketEvents.CHAT)
@@ -122,4 +129,32 @@ export class WebsocketGatewayGateway {
       }, message.delay);
     });
   }
+
+  generateBootPlayers(numberOfPlayer: number): IPlayer[] {
+    const players = [];
+    for (let index = 1; index < numberOfPlayer; index++) {
+      const newBootPlayer = new BootPlayer(`CPU${index}`);
+      players.push(newBootPlayer);
+    }
+    return players;
+  }
+
+  autoPlaysBoot() {
+    this.bootPlayers.forEach((bootPlayer: IPlayer) => {
+      bootPlayer.multiplier = generateRandomNumber(1, 9, 2);
+      bootPlayer.points = generateRandomNumber(1, 900, 0);
+      bootPlayer.score = Math.round(
+        1000 + bootPlayer.multiplier * bootPlayer.points,
+      );
+    });
+  }
+}
+
+class BootPlayer {
+  constructor(
+    public name: string,
+    public points?: number,
+    public multiplier?: number,
+    public score?: number,
+  ) {}
 }
