@@ -33,6 +33,10 @@ git clone git@github.com:moise10r/guessing-game.git
 
 - Enter project directory
 
+```sh
+cd guessing-game
+```
+
 ### Run
 
 ```sh
@@ -59,8 +63,7 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Microverse
-- Original design idea by Gregoire Vella on [Behance](https://www.behance.net/gregoirevella).
+- Splash software
 
 ## License
 
