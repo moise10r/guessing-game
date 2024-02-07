@@ -43,18 +43,3 @@ services:
     depends_on:
       - rabbitmq
       - mongodb
-
-  guess-manager:
-    build:
-      context: .
-      dockerfile: ./apps/guess-manager/Dockerfile
-      # target: build
-    command: pnpm run start:dev guess-manager
-    env_file:
-      - ./apps/guess-manager/.env
-    volumes:
-      - ./:/usr/src/app
-    container_name: guess-manager-service
-    depends_on:
-      - rabbitmq
-      - mongodb

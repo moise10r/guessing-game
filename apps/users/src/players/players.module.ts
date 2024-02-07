@@ -6,8 +6,6 @@ import { PlayersController } from './players.controller';
 import * as Joi from 'joi';
 import { PlayerRepository } from './repositories/player.repository';
 import { PlayerDocument, PlayerSchema } from './models/player.schema';
-import { JoinedPlayersService } from '../../../../libs/common/src/joined-player/joined-player.service';
-import { GameRoundModule } from '../game-round/game-round.module';
 
 @Module({
   imports: [
@@ -24,9 +22,8 @@ import { GameRoundModule } from '../game-round/game-round.module';
     }),
     LoggerModule,
     RmqModule,
-    GameRoundModule,
   ],
-  providers: [PlayersService, PlayerRepository, JoinedPlayersService],
+  providers: [PlayersService, PlayerRepository],
   controllers: [PlayersController],
   exports: [PlayersService, PlayerRepository],
 })
