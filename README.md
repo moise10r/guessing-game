@@ -1,4 +1,4 @@
-# Guessing game
+# Guessing game server
 
 > This is a guessing game based on random numbers and progresses through a series of rounds. The objective is to observe the rising Multiplier value, predict when it will freeze, and place points based on the prediction.
 
@@ -42,7 +42,7 @@ cd guessing-game
 ```sh
 docker compose up
 ```
-
+NOW YOU'RE GOOD TO TEST THIS API
 ## Author
 
 👤 **NGANULO RUSHANIKA Moise**
