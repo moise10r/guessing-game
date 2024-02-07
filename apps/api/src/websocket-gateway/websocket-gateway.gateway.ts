@@ -19,7 +19,7 @@ export const rankPlayersMap: Map<string, RankPlayer> = new Map();
 
 @WebSocketGateway({
   cors: {
-    origin: '*',
+    origin: 'http://localhost:3000',
   },
 })
 export class WebsocketGatewayGateway {
@@ -60,15 +60,10 @@ export class WebsocketGatewayGateway {
     joinedPlayersMap.clear();
     joinedPlayersMap.set(payload.name, payload);
     console.log('payload', payload);
-
     client.broadcast.emit(WebSocketEvents.STARTS_ROUND, payload);
-    // this.server.emit(WebSocketEvents.ROUND_STARTED, payload);
   }
   @SubscribeMessage(WebSocketEvents.ROUND_STARTED)
-  roundStarted(
-    @MessageBody() payload: IPlayer,
-    // @ConnectedSocket() client: Socket,
-  ) {
+  roundStarted(@MessageBody() payload: IPlayer) {
     joinedPlayersMap.set(payload.name, payload);
     const players = Array.from(joinedPlayersMap.values());
     this.autoPlaysBoot();
@@ -85,6 +80,7 @@ export class WebsocketGatewayGateway {
 
   @SubscribeMessage(WebSocketEvents.SEND_SCORE)
   sendScore(@MessageBody() payload: RankPlayer) {
+    this.websocketGatewayService.savePlayer(payload);
     rankPlayersMap.set(payload.name, payload);
     const players = Array.from(rankPlayersMap.values());
     console.log('SEND_SCORE players', players);
